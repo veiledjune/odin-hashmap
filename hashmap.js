@@ -121,4 +121,19 @@ export class HashMap {
     });
     return keys;
   }
+
+  values() {
+    const values = [];
+    const arr = this.array;
+    arr.forEach((item) => {
+      if (item) {
+        let current = item.head;
+        while (current) {
+          values.push(current.value);
+          current = current.nextNode;
+        }
+      }
+    });
+    return values;
+  }
 }
