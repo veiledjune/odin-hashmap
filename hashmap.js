@@ -3,7 +3,7 @@ import { LinkedList, Node } from './linked-list.js';
 export class HashMap {
   constructor() {
     this.capacity = 16;
-    this.array = new Array(this.capacity);
+    this.array = new Array(this.capacity).fill(null);
     this.totalItems = 0;
     this.loadFactor = Math.round(0.75 * this.capacity);
   }
@@ -60,6 +60,37 @@ export class HashMap {
     let current = arr[hashCode].head;
     while (current) {
       if (current.key === key) return true;
+      current = current.nextNode;
+    }
+    return false;
+  }
+
+  remove(key) {
+    const arr = this.array;
+    const hashCode = this.hash(key);
+    if (!arr[hashCode]) return false;
+    let head = arr[hashCode].head;
+    let current = head;
+    let prev = null;
+    while (current) {
+      if (current.key === key) {
+        if (current === head) {
+          if (head.nextNode) {
+            arr[hashCode].head = head.nextNode;
+            this.totalItems--;
+            return true;
+          } else {
+            arr[hashCode] = null;
+            this.totalItems--;
+            return true;
+          }
+        } else {
+          prev.nextNode = current.nextNode;
+          this.totalItems--;
+          return true;
+        }
+      }
+      prev = current;
       current = current.nextNode;
     }
     return false;
