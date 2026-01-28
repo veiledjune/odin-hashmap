@@ -52,4 +52,16 @@ export class HashMap {
     }
     return null;
   }
+
+  has(key) {
+    const arr = this.array;
+    const hashCode = this.hash(key);
+    if (!arr[hashCode]) return false;
+    let current = arr[hashCode].head;
+    while (current) {
+      if (current.key === key) return true;
+      current = current.nextNode;
+    }
+    return false;
+  }
 }
