@@ -19,25 +19,29 @@ export class HashMap {
 
   set(key, value) {
     const arr = this.array;
-    const hashCode = this.hash(key);
-    if (!arr[hashCode]) {
-      arr[hashCode] = new LinkedList();
+    const index = this.hash(key);
+    if (index < 0 || index >= arr.length)
+      throw new Error('Trying to access index out of bounds');
+    if (!arr[index]) {
+      arr[index] = new LinkedList();
     }
-    const existingKey = arr[hashCode].find(key);
+    const existingKey = arr[index].find(key);
     if (existingKey) {
       existingKey.value = value;
       return;
     }
-    arr[hashCode].append(key, value);
+    arr[index].append(key, value);
     this.totalItems++;
     this.handleSize();
   }
 
   get(key) {
     const arr = this.array;
-    const hashCode = this.hash(key);
-    if (!arr[hashCode]) return null;
-    let current = arr[hashCode].head;
+    const index = this.hash(key);
+    if (index < 0 || index >= arr.length)
+      throw new Error('Trying to access index out of bounds');
+    if (!arr[index]) return null;
+    let current = arr[index].head;
     while (current) {
       if (current.key === key) return current.value;
       current = current.nextNode;
@@ -47,9 +51,11 @@ export class HashMap {
 
   has(key) {
     const arr = this.array;
-    const hashCode = this.hash(key);
-    if (!arr[hashCode]) return false;
-    let current = arr[hashCode].head;
+    const index = this.hash(key);
+    if (index < 0 || index >= arr.length)
+      throw new Error('Trying to access index out of bounds');
+    if (!arr[index]) return false;
+    let current = arr[index].head;
     while (current) {
       if (current.key === key) return true;
       current = current.nextNode;
@@ -59,11 +65,13 @@ export class HashMap {
 
   remove(key) {
     const arr = this.array;
-    const hashCode = this.hash(key);
-    if (!arr[hashCode]) return false;
-    const result = arr[hashCode].delete(key);
+    const index = this.hash(key);
+    if (index < 0 || index >= arr.length)
+      throw new Error('Trying to access index out of bounds');
+    if (!arr[index]) return false;
+    const result = arr[index].delete(key);
     if (!result) return result;
-    if (!arr[hashCode].head) arr[hashCode] = null;
+    if (!arr[index].head) arr[index] = null;
     this.totalItems--;
     return result;
   }
