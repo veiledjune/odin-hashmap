@@ -23,6 +23,11 @@ export class HashMap {
     if (!arr[hashCode]) {
       arr[hashCode] = new LinkedList();
     }
+    const existingKey = arr[hashCode].find(key);
+    if (existingKey) {
+      existingKey.value = value;
+      return;
+    }
     arr[hashCode].append(key, value);
     this.totalItems++;
     this.handleSize();
@@ -56,31 +61,11 @@ export class HashMap {
     const arr = this.array;
     const hashCode = this.hash(key);
     if (!arr[hashCode]) return false;
-    let head = arr[hashCode].head;
-    let current = head;
-    let prev = null;
-    while (current) {
-      if (current.key === key) {
-        if (current === head) {
-          if (head.nextNode) {
-            arr[hashCode].head = head.nextNode;
-            this.totalItems--;
-            return true;
-          } else {
-            arr[hashCode] = null;
-            this.totalItems--;
-            return true;
-          }
-        } else {
-          prev.nextNode = current.nextNode;
-          this.totalItems--;
-          return true;
-        }
-      }
-      prev = current;
-      current = current.nextNode;
-    }
-    return false;
+    const result = arr[hashCode].delete(key);
+    if (!result) return result;
+    if (!arr[hashCode].head) arr[hashCode] = null;
+    this.totalItems--;
+    return result;
   }
 
   length() {
