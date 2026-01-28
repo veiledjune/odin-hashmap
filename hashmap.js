@@ -106,4 +106,19 @@ export class HashMap {
     this.totalItems = 0;
     this.loadFactor = Math.round(0.75 * this.capacity);
   }
+
+  keys() {
+    const keys = [];
+    const arr = this.array;
+    arr.forEach((item) => {
+      if (item) {
+        let current = item.head;
+        while (current) {
+          keys.push(current.key);
+          current = current.nextNode;
+        }
+      }
+    });
+    return keys;
+  }
 }
