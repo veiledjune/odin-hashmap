@@ -20,25 +20,11 @@ export class HashMap {
   set(key, value) {
     const arr = this.array;
     const hashCode = this.hash(key);
-    const node = new Node(key, value);
     if (!arr[hashCode]) {
       arr[hashCode] = new LinkedList();
-      arr[hashCode].head = node;
-      this.totalItems++;
-    } else {
-      let current = arr[hashCode].head;
-      while (current) {
-        if (current.key === key) {
-          current.value = value;
-          return;
-        }
-        if (!current.nextNode) {
-          current.nextNode = node;
-          this.totalItems++;
-          return;
-        } else current = current.nextNode;
-      }
     }
+    arr[hashCode].append(key, value);
+    this.totalItems++;
   }
 
   get(key) {
