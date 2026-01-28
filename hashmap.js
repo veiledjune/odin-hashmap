@@ -99,4 +99,11 @@ export class HashMap {
   length() {
     return this.totalItems;
   }
+
+  clear() {
+    this.capacity = 16;
+    this.array = new Array(this.capacity).fill(null);
+    this.totalItems = 0;
+    this.loadFactor = Math.round(0.75 * this.capacity);
+  }
 }
