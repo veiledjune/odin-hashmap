@@ -25,6 +25,7 @@ export class HashMap {
     }
     arr[hashCode].append(key, value);
     this.totalItems++;
+    this.handleSize();
   }
 
   get(key) {
@@ -136,5 +137,20 @@ export class HashMap {
       }
     });
     return entries;
+  }
+
+  handleSize() {
+    if (this.totalItems > this.loadFactor) {
+      const entries = this.entries();
+      this.capacity = this.capacity * 2;
+      this.array = new Array(this.capacity).fill(null);
+      this.totalItems = 0;
+      this.loadFactor = Math.round(0.75 * this.capacity);
+      entries.forEach((entry) => {
+        const key = entry[0],
+          value = entry[1];
+        this.set(key, value);
+      });
+    }
   }
 }
