@@ -40,4 +40,16 @@ export class HashMap {
       }
     }
   }
+
+  get(key) {
+    const arr = this.array;
+    const hashCode = this.hash(key);
+    if (!arr[hashCode]) return null;
+    let current = arr[hashCode].head;
+    while (current) {
+      if (current.key === key) return current.value;
+      current = current.nextNode;
+    }
+    return null;
+  }
 }
