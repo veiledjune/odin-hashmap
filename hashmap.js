@@ -95,4 +95,8 @@ export class HashMap {
     }
     return false;
   }
+
+  length() {
+    return this.totalItems;
+  }
 }
